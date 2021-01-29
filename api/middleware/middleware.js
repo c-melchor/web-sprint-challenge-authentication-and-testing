@@ -19,21 +19,4 @@ async function validateUserBody(req, res, next) {
     }
 };
 
-async function validUser(req, res, next) {
-    const { username } = req.body;
-    const validUser = await User.getBy(username)
-    console.log(validUser)
-    try {
-        if (validUser) {
-            next();
-        } else {
-            res.status(404).json("invalid credentials")
-        }
-
-    }
-    catch (error) {
-
-    }
-}
-
-module.exports = { validateUserBody, validUser }
+module.exports = { validateUserBody }
