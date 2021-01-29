@@ -20,14 +20,14 @@ async function validateUserBody(req, res, next) {
 };
 
 async function validUser(req, res, next) {
-    const { id } = req.params;
-    const validUser = await User.getBy(id)
+    const { username } = req.body;
+    const validUser = await User.getBy(username)
     console.log(validUser)
     try {
         if (validUser) {
             next();
         } else {
-            res.status(404).json("Not valid")
+            res.status(404).json("invalid credentials")
         }
 
     }
