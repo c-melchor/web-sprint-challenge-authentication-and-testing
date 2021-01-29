@@ -24,6 +24,10 @@ describe("register function", () => {
       res = await request(server).post("/api/auth/register").send({ username: "andrew", password: "1234" });
       expect(res.status).toBe(201)
     });
-    // it("")
+    it("validates req.body", async () => {
+      let res
+      res = await request(server).post("/api/auth/register").send({ username: "", password: "1234" })
+      expect(res.status).toBe(404)
+    })
   });
 });
