@@ -17,13 +17,13 @@ afterAll(async () => {
   await db.destroy()
 });
 
-const grandpa = { username: "jerry", password: "1234" };
-const grandma = { username: "joyce", password: "1234" };
-
 describe("register function", () => {
   describe("[POST] method", () => {
     it("returns a 201 when new user is registered", async () => {
-      expect(3).toBe(4)
+      let res;
+      res = await request(server).post("/api/auth/register").send({ username: "andrew", password: "1234" });
+      expect(res.status).toBe(201)
     });
+    // it("")
   });
 });
