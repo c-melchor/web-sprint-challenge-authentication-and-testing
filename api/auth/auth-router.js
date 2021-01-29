@@ -31,14 +31,11 @@ router.post('/login', validateUserBody, (req, res) => {
       if (user && bcrypt.compareSync(password, user.password)) {
         const token = generateToken(user);
         res.status(200).json({ message: `welcome, ${user.username}`, token })
-      } else {
-        console.log("not working")
-        // if 
-        // (user && bcrypt.compareSync(password !== user.password)) {
-        // req.status(401).json("invalid credentials")
+      } else if (!user || !bcrypt.compareSync(password, user.password)) {
+        res.status(401).json("invalid credentials")
       }
     })
-    .catch(err => { console.log(err) })
+    .catch((err) => { res.status(500).json(err) })
 })
 // .catch(err => { res.status(500).json("error") })
 // }
