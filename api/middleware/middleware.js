@@ -12,7 +12,6 @@ async function validateUserBody(req, res, next) {
         } else {
             res.status(400).json("username and password required");
         }
-
     }
     catch (error) {
         res.status(400).json("username taken");

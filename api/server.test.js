@@ -53,10 +53,10 @@ describe("login function", () => {
       let maa = { username: "maa", password: "1234" };
       await request(server).post("/api/auth/register").send(maa);
       res = await request(server).post("/api/auth/login").send(maa);
-      console.log(res.body, "BODDY")
       expect(res.body).toMatchObject({ message: "welcome, maa", token: res.body.token });
     });
   });
+
   describe("[GET] method for dad jokes", () => {
     it("doesn't allow dad jokes to be seen without a valid token", async () => {
       let res;
