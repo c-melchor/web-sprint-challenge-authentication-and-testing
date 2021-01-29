@@ -10,9 +10,11 @@ beforeAll(async () => {
   await db.migrate.rollback()
   await db.migrate.latest()
 });
+
 beforeEach(async () => {
   await db('users').truncate()
 });
+
 afterAll(async () => {
   await db.destroy()
 });
@@ -24,6 +26,7 @@ describe("register function", () => {
       res = await request(server).post("/api/auth/register").send({ username: "andrew", password: "1234" });
       expect(res.status).toBe(201)
     });
+
     it("validates registration information is complete", async () => {
       let res
       res = await request(server).post("/api/auth/register").send({ username: "", password: "1234" })
@@ -39,10 +42,19 @@ describe("login function", () => {
       res = await request(server).post("/api/auth/login").send({ username: "hello", password: "there" });
       expect(res.status).toBe(401);
     });
+
     it("validates login information is complete", async () => {
       let res
       res = await request(server).post("/api/auth/login").send({ username: "christina", password: "" })
       expect(res.status).toBe(400);
+    });
+
+    it("receives a token on authorized login", async () => {
+      let maa = { username: "maa", password: "1234" };
+      await request(server).post("/api/auth/register").send(maa);
+      res = await request(server).post("/api/auth/login").send(maa);
+      console.log(res.body, "BODDY")
+      expect(res.body).toMatchObject({ message: "welcome, maa", token: res.body.token });
     });
   });
   describe("[GET] method for dad jokes", () => {
@@ -50,6 +62,15 @@ describe("login function", () => {
       let res;
       res = await request(server).get("/api/jokes");
       expect(res.status).toBe(401)
+    });
+
+    it("allows authorized user to [GET] jokes", async () => {
+      let maa = { username: "maa", password: "1234" };
+      await request(server).post("/api/auth/register").send(maa);
+      res = await request(server).post("/api/auth/login").send(maa);
+      token = res.body.token;
+      expect(res.body).toMatchObject({ message: "welcome, maa", token: token });
+      let jokes = await request(server).get("/api/jokes").set("Authorization", token)
     });
   });
 
