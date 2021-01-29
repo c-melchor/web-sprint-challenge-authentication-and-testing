@@ -10,13 +10,13 @@ async function validateUserBody(req, res, next) {
         if (validUserBody) {
             next();
         } else {
-            res.status(404).json("username and password required")
+            res.status(400).json("username and password required");
         }
 
     }
     catch (error) {
-        res.status(404).json("username taken")
+        res.status(400).json("username taken");
     }
 };
 
-module.exports = { validateUserBody }
+module.exports = { validateUserBody };
