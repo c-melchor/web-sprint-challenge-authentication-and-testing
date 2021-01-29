@@ -1,4 +1,29 @@
-// Write your tests here
+const request = require("supertest");
+const db = require("../data/dbConfig");
+const server = require("../api/server");
+
 test('sanity', () => {
-  expect(true).toBe(false)
-})
+  expect(true).toBe(true)
+});
+
+beforeAll(async () => {
+  await db.migrate.rollback()
+  await db.migrate.latest()
+});
+beforeEach(async () => {
+  await db('users').truncate()
+});
+afterAll(async () => {
+  await db.destroy()
+});
+
+const grandpa = { username: "jerry", password: "1234" };
+const grandma = { username: "joyce", password: "1234" };
+
+describe("register function", () => {
+  describe("[POST] method", () => {
+    it("returns a 201 when new user is registered", async () => {
+      expect(3).toBe(4)
+    });
+  });
+});
