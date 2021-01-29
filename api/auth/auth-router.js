@@ -3,9 +3,10 @@ const bcrypt = require("bcrypt");
 const secrets = require("../../config/secrets");
 const jwt = require("jsonwebtoken");
 const User = require("../users/users-model");
+const { validateUserBody, validUser } = require("../middleware/middleware");
 
 
-router.post('/register', (req, res) => {
+router.post('/register', validateUserBody, (req, res) => {
   const user = req.body;
   const hashed = bcrypt.hashSync(user.password, 10);
   if (user) {
@@ -15,7 +16,7 @@ router.post('/register', (req, res) => {
         res.status(201).json(newUser)
       })
       .catch(error => {
-        res.status(500).json({ message: error.message })
+        res.status(500).json("username taken")
       })
   } else {
     res.status(400).json("Please provide valid credentials")
@@ -49,7 +50,7 @@ router.post('/register', (req, res) => {
   */
 });
 
-router.post('/login', (req, res) => {
+router.post('/login', validateUserBody, (req, res) => {
   res.end('implement login, please!');
   /*
     IMPLEMENT

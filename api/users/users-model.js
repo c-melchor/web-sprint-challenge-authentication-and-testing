@@ -5,13 +5,13 @@ module.exports = {
         return db("users")
     },
     async insert(user) {
-        await db("users").insert(user)
+        return await db("users").insert(user)
             .then(async id => {
-                await db("users").where("id", id).first();
+                return await db("users").where("id", id).first();
             })
-            .catch(err => {
-                console.log(err)
-            });
+    },
+    getBy(filter) {
+        return db("users").where("username", filter).first();
     }
 
 }
