@@ -37,7 +37,7 @@ describe("register function", () => {
 
 describe("login function", () => {
   describe("[POST] method", () => {
-    it("doesn't allow someone to login if no token present", async () => {
+    it("doesn't allow someone to login if person not registered", async () => {
       let res;
       res = await request(server).post("/api/auth/login").send({ username: "hello", password: "there" });
       expect(res.status).toBe(401);
