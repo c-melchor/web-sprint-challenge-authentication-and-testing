@@ -71,6 +71,7 @@ describe("login function", () => {
       token = res.body.token;
       expect(res.body).toMatchObject({ message: "welcome, maa", token: token });
       let jokes = await request(server).get("/api/jokes").set("Authorization", token)
+      expect(jokes.body).toBeDefined()
     });
   });
 
